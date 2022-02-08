@@ -7,3 +7,5 @@ class Hello():
 h1 = Hello()
 
 h1.hi()
+
+# test add
