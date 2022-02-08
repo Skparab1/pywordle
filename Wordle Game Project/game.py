@@ -32,7 +32,7 @@ def playWordle():
 
     # initialize WordBanks
     all_words = WordBank("words_alpha.txt")
-    ...
+    words = WordBank("common5letter.txt")
 
     # intialize settings to the baseline settings
     settings = Setting()
@@ -40,11 +40,20 @@ def playWordle():
     settings.setSetting('numplayers', 1)
     settings.setSetting('difficulty', 'normal')
 
-    # make the player
+    playerName = input('Please enter your name >')
+    player1 = player(playerName)
 
     # start playing rounds of Wordle
+    playAgain = True
+
+    while (playAgain):
+        playRound(player1, words, all_words, settings)
+        playAgain = input('Do you want to play Again').upper() == 'Y'
 
     # end game by displaying player stats
+
+    player1.displayStats()
+
 
 def main():
     playWordle()
