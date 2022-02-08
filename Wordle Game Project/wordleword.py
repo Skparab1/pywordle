@@ -13,13 +13,33 @@
 from fancyword import FancyWord
 
 class WordleWord(FancyWord):
-    global solution
+
+    def setCorrect(self,pos):
+        self.setColorAt(pos,'green')
+
+    def setMisplaced(self,pos):
+        self.setColorAt(pos,'yellow')
+    
+    def setUnused(self,pos):
+        self.setColorAt(pos,'gray')
+
     def isCorrect(self,pos):
-        return self.word[pos] == solution[pos]
+        return self.colorAt() == 'green'
 
     def isMisplaced(self,pos):
-        if (self.word[pos] != solution[pos] and solution[pos] in self.word):
+        return self.colorAt() == 'yellow'
+
+    def isNotUsed(self,pos):
+        return self.colorAt() == 'gray'
 
 
 
-solution = 'hello'
+# testing below
+
+#guess1 = WordleWord('hello')
+
+#for i in range(5):
+#    guess1.setUnused(i)
+
+#print(guess1)
+
