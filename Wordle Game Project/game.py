@@ -12,7 +12,18 @@ from wordleplayer import WordlePlayer
 #   alphabet - WordleWord of the letters a-z that have been marked
 #======
 def markGuess(word, guess, alphabet):
-    pass  # TODO
+    
+    for i in range(5):
+        if word[i] == guess.word[i]:
+            guess.setCorrect(i)
+            alphabet.setCorrect(alphabet.find(word[i]))
+        elif guess.word[i] in word:
+            guess.setMisplaced(i)
+            alphabet.setMisplaced(alphabet.find(word[i]))
+        else:
+            guess.setUnused(i)
+            alphabet.setUnused(alphabet.find(word[i]))
+
 
 #======
 # playRound(players, words, all_words, settings)
@@ -50,6 +61,8 @@ def playWordle():
     while (playAgain):
         playRound(player1, words, all_words, settings)
         playAgain = input('Do you want to play Again').upper() == 'Y'
+
+    markGuess('hello', guess, alphabet):
 
     # end game by displaying player stats
 
