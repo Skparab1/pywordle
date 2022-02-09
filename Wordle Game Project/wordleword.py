@@ -24,22 +24,23 @@ class WordleWord(FancyWord):
         self.setColorAt(pos,'gray')
 
     def isCorrect(self,pos):
-        return self.colorAt() == 'green'
+        return self.colorAt(pos) == 'green'
 
     def isMisplaced(self,pos):
-        return self.colorAt() == 'yellow'
+        return self.colorAt(pos) == 'yellow'
 
     def isNotUsed(self,pos):
-        return self.colorAt() == 'gray'
+        return self.colorAt(pos) == 'gray'
 
 
 
-# testing below
+#testing below
 
 #guess1 = WordleWord('hello')
 
 #for i in range(5):
-#    guess1.setUnused(i)
+#    guess1.setMisplaced(i)
 
 #print(guess1)
+#print(guess1.isMisplaced(1))
 
