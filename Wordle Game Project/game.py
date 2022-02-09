@@ -1,3 +1,4 @@
+from re import S
 import string
 from setting import Setting
 from wordbank import WordBank
@@ -41,7 +42,7 @@ def playWordle():
     settings.setSetting('difficulty', 'normal')
 
     playerName = input('Please enter your name >')
-    player1 = player(playerName)
+    player1 = WordlePlayer()
 
     # start playing rounds of Wordle
     playAgain = True
