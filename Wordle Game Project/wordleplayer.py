@@ -82,9 +82,43 @@ class WordlePlayer(Player):
             
     def winPercentage(self):
         if self.plays != 0:
-            return self.wins / self.plays * 100
+            self.percentage = self.wins / self.plays * 100
+            return self.percentage
         else:
-            return 0
+            self.percentage = 0
+            return self.percentage
+    
+    def tryPercentage(self):
+        if self.wins != 0: 
+            self.percent1 = self.try1 / self.wins
+        else: 
+            self.percent1 = 0
+        
+        if self.wins != 0:
+            self.percent2 = self.try2 / self.wins
+        else: 
+            self.percent2 = 0
+        
+        if self.wins != 0: 
+            self.percent3 = self.try3 / self.wins
+        else: 
+            self.percent3 = 0
+        
+        if self.wins != 0: 
+            self.percent4 = self.try4 / self.wins
+        else: 
+            self.percent4 = 0
+        
+        if self.wins != 0:
+            self.percent5 = self.try5 / self.wins
+        else: 
+            self.percent5 = 0
+        
+        if self.wins != 0: 
+            self.percent6 = self.try6 / self.wins
+        else: 
+            self.percent6 = 0
+        return (self.percent1, self.percent2, self.percent3, self.percent4, self.percent5, self.percent6)
 
     def gamesPlayed(self):
         return self.plays
@@ -98,16 +132,16 @@ class WordlePlayer(Player):
     def displayStats(self):
         print(
             "Games Played: " + str(self.plays) + "\n"
-            "Win Percentage: " + str(self.wins / self.plays * 100) + "\n"
-            "Current Win Streak: " + str(self.streak) + "\n"
-            "Max Win Streak " + str(self.maxstreak) + "\n"
+            "Win Percentage: " + str(self.winPercentage() * 100) + "\n"
+            "Current Win Streak: " + str(self.currentStreak()) + "\n"
+            "Max Win Streak: " + str(self.maxStreak()) + "\n"
             "Guess Distribution")
-        print("  " + "1: " + int(20 * (self.try1 / self.wins) + 1) * "#" + " " + str(self.try1) + "\n"
-        "  " + "2: " + int(20 * (self.try2 / self.wins) + 1)* "#" + " " + str(self.try2) + "\n"
-        "  " + "3: " + int(20 * (self.try3 / self.wins) + 1)* "#" + " " + str(self.try3) + "\n"  
-        "  " + "4: " + int(20 * (self.try4 / self.wins) + 1) * "#" + " " + str(self.try4) + "\n"
-        "  " + "5: " + int(20 * (self.try5 / self.wins)+ 1) * "#" + " "+ str(self.try5) + "\n"
-        "  " + "6: " + int(20 * (self.try6 / self.wins) + 1) * "#" + " " + str(self.try6) + "\n")
+        print("  " + "1: " + int(20 * (self.tryPercentage()[0]) + 1) * "#" + " " + str(self.try1) + "\n"
+        "  " + "2: " + int(20 * (self.percent2) + 1)* "#" + " " + str(self.try2) + "\n"
+        "  " + "3: " + int(20 * (self.percent3) + 1)* "#" + " " + str(self.try3) + "\n"  
+        "  " + "4: " + int(20 * (self.percent4) + 1) * "#" + " " + str(self.try4) + "\n"
+        "  " + "5: " + int(20 * (self.percent5)+ 1) * "#" + " "+ str(self.try5) + "\n"
+        "  " + "6: " + int(20 * (self.percent6) + 1) * "#" + " " + str(self.try6) + "\n")
 
 # Person = WordlePlayer()
 
