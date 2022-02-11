@@ -12,18 +12,7 @@ from wordleplayer import WordlePlayer
 #   alphabet - WordleWord of the letters a-z that have been marked
 #======
 def markGuess(word, guess, alphabet):
-    
-    for i in range(5):
-        if word[i] == guess.word[i]:
-            guess.setCorrect(i)
-            alphabet.setCorrect(alphabet.find(word[i]))
-        elif guess.word[i] in word:
-            guess.setMisplaced(i)
-            alphabet.setMisplaced(alphabet.find(word[i]))
-        else:
-            guess.setUnused(i)
-            alphabet.setUnused(alphabet.find(word[i]))
-
+    pass
 
 #======
 # playRound(players, words, all_words, settings)
@@ -34,9 +23,39 @@ def markGuess(word, guess, alphabet):
 #   words - Wordbank of the common words to select from
 #   all_words - Wordbank of the legal words to guess
 #   settings - Settings of game
-#======
+#======#
 def playRound(players, words, all_words, settings):
-    pass # TODO
+    #answer = words.getRandom()
+    answer = 'hello'
+    alphabet = WordleWord('abcdefghijklmnopqrstuvwxyz')
+    listofGuesses = []
+    guess = ''
+
+    while len(listofGuesses) < 6 and str(guess) != answer:
+        
+        oldGuess = guess
+        guess = input("Enter your guess:")
+
+        while len(guess) != 5 or not all_words.contains(guess) or guess in listofGuesses:
+            guess = input("You can only enter legal 5 letter words, no repeats!:")
+
+        markGuess(answer, guess, alphabet)
+    
+        listofGuesses.append(guess)
+
+        for x in range(len(listofGuesses)):
+            print(str(x + 1) + ': ' + listofGuesses[x])
+        
+        print(alphabet)
+
+    if str(guess) == answer:
+        for placeholder in players:
+            placeholder.updateStats(True, len(listofGuesses))
+    else:
+        for placeholder in players:
+            placeholder.updateStats(False, 0)
+
+
 
 
 def playWordle():
@@ -61,8 +80,6 @@ def playWordle():
     while (playAgain):
         playRound(player1, words, all_words, settings)
         playAgain = input('Do you want to play Again').upper() == 'Y'
-
-    markGuess('hello', guess, alphabet):
 
     # end game by displaying player stats
 
