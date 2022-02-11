@@ -1,5 +1,9 @@
+# Names: Joseph Gerali, Shubham Parab
+# Snapshot 1: Wordleword finished, wordleplayer finished. working on game.py
+
 from re import S
 import string
+import time
 from setting import Setting
 from wordbank import WordBank
 from wordleword import WordleWord
@@ -12,7 +16,21 @@ from wordleplayer import WordlePlayer
 #   alphabet - WordleWord of the letters a-z that have been marked
 #======
 def markGuess(word, guess, alphabet):
-    pass
+    
+    for i in range(5):
+        if word[i] == guess.word[i]:
+            guess.setCorrect(i)
+            alphabet.setCorrect(alphabet.word.find(word[i]))
+        elif guess.word[i] in word:
+            if (getCharAmt(word,guess.word[i]) == 1 and getCharAmt(guess.word,guess.word[i]) == 1): # if theres only one of that character but hthere are two of them 
+                print()
+                #basically make the first one correct/misplaced and the second one wrong
+            guess.setMisplaced(i)
+            alphabet.setMisplaced(alphabet.word.find(word[i]))
+        else:
+            guess.setUnused(i)
+            alphabet.setUnused(alphabet.word.find(word[i]))
+
 
 #======
 # playRound(players, words, all_words, settings)
@@ -23,7 +41,7 @@ def markGuess(word, guess, alphabet):
 #   words - Wordbank of the common words to select from
 #   all_words - Wordbank of the legal words to guess
 #   settings - Settings of game
-#======#
+#======
 def playRound(players, words, all_words, settings):
     #answer = words.getRandom()
     answer = 'hello'
@@ -56,36 +74,72 @@ def playRound(players, words, all_words, settings):
             placeholder.updateStats(False, 0)
 
 
+def getCharAmt(word,char):
+    charct = 0
+    for ch in word:
+        if ch == char:
+            charct += 1
+
+    return charct
+
+def loadingAnim():
+    print('\n'*50)
+    print('Loading')
+    time.sleep(0.5)
+    for i in range(10):
+        print('\n'*50)
+        print('Loading'+'.'*i)
+        time.sleep(0.01)
+    time.sleep(1)
+
+def animateWord(word,before,speed):
+    for i in range(len(word)+1):
+        print('\n'*50)
+        print(before)
+        print(word[0:i])
+        time.sleep(speed)
 
 
 def playWordle():
-    print("Let's play the game of Wordle!")
+    animateWord("Let's play the game of Wordle!",'',0.03)
 
     # initialize WordBanks
     all_words = WordBank("words_alpha.txt")
     words = WordBank("common5letter.txt")
 
     # intialize settings to the baseline settings
+
     settings = Setting()
     settings.setSetting('maxguess', 6)
     settings.setSetting('numplayers', 1)
     settings.setSetting('difficulty', 'normal')
 
-    playerName = input('Please enter your name >')
+    animateWord('Please enter your name','Let\'s play the game of Wordle!',0.05)
+    playerName = input('>')
     player1 = WordlePlayer()
+    #playerlist = [WordlePlayer()]
 
     # start playing rounds of Wordle
     playAgain = True
 
+    loadingAnim()
     while (playAgain):
+        print('\n'*50+'Wordle')
         playRound(player1, words, all_words, settings)
         playAgain = input('Do you want to play Again').upper() == 'Y'
 
+    #markGuess('hello', guess, alphabet)
+
     # end game by displaying player stats
 
+    guess = WordleWord('hello')
+    alphabet = WordleWord('abcdefghijklmnopqrstuvwxyz')
+    markGuess('apple',guess,alphabet)
+    print(guess)
+    print(alphabet)
+
     player1.displayStats()
-
-
+        
 def main():
     playWordle()
 
