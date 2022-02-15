@@ -48,6 +48,7 @@ def playRound(players, words, all_words, settings):
     answer = 'hello'
     alphabet = WordleWord('abcdefghijklmnopqrstuvwxyz')
     listofGuesses = []
+    wordlist = []
     guess = WordleWord('')
 
     while len(listofGuesses) < 6 and str(guess.word) != answer:
@@ -55,23 +56,26 @@ def playRound(players, words, all_words, settings):
         oldGuess = guess
         guess = WordleWord(input("Enter your guess:"))
 
-        while len(guess.word) != 5 or not all_words.contains(guess.word) or guess in listofGuesses:
+        while len(guess.word) != 5 or not all_words.contains(guess.word) or guess.word in wordlist:
             guess = WordleWord(input("You can only enter legal 5 letter words, no repeats!:"))
 
         markGuess(answer, guess, alphabet)
-    
+
+        wordlist.append(guess.word)
         listofGuesses.append(guess)
 
         for x in range(len(listofGuesses)):
-            print(str(x + 1) + ': ' + listofGuesses[x].word)
+            print(str(x + 1) + ': ', listofGuesses[x])
         
         print(alphabet)
 
-    if str(guess) == answer:
+    if guess.word == answer:
         for placeholder in players:
+            print("You win!")
             placeholder.updateStats(True, len(listofGuesses))
     else:
         for placeholder in players:
+            print("You lost! The word was:" + str(answer))
             placeholder.updateStats(False, 0)
 
 
@@ -138,7 +142,6 @@ def playWordle():
     print(guess)
     print(alphabet)
 
-    players.displayStats()
         
 def main():
     playWordle()
