@@ -16,21 +16,29 @@ from wordleplayer import WordlePlayer
 #   alphabet - WordleWord of the letters a-z that have been marked
 #======
 def markGuess(word, guess, alphabet):
+    print(type(word))
     print(type(guess))
-    
+     
     for i in range(5):
+        #print('went into loop')
         if word[i] == guess.word[i]:
             guess.setCorrect(i)
             alphabet.setCorrect(alphabet.word.find(word[i]))
+            #print('went into correct if')
         elif guess.word[i] in word:
             if (getCharAmt(word,guess.word[i]) == 1 and getCharAmt(guess.word,guess.word[i]) == 1): # if theres only one of that character but hthere are two of them 
                 print()
                 #basically make the first one correct/misplaced and the second one wrong
             guess.setMisplaced(i)
-            alphabet.setMisplaced(alphabet.word.find(word[i]))
+            if (not alphabet.isCorrect(alphabet.word.find(guess.word[i]))):
+                alphabet.setMisplaced(alphabet.word.find(guess.word[i]))
+            
+            #print('went into misp if')
         else:
             guess.setUnused(i)
-            alphabet.setUnused(alphabet.word.find(word[i]))
+            if (not alphabet.isCorrect(alphabet.word.find(guess.word[i])) and not alphabet.isMisplaced(alphabet.word.find(guess.word[i]))):
+                alphabet.setUnused(alphabet.word.find(guess.word[i]))
+            #print('went into unused if')
 
 
 #======
