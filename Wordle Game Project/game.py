@@ -26,10 +26,21 @@ def markGuess(word, guess, alphabet):
             alphabet.setCorrect(alphabet.word.find(word[i]))
             #print('went into correct if')
         elif guess.word[i] in word:
+            goOut = False
             if (getCharAmt(word,guess.word[i]) == 1 and getCharAmt(guess.word,guess.word[i]) == 1): # if theres only one of that character but hthere are two of them 
-                print()
-                #basically make the first one correct/misplaced and the second one wrong
-            guess.setMisplaced(i)
+                for j in range(5):
+                    if (word[j] == guess.word[j]):
+                        if i == j:
+                            #guess.setCorrect(i)
+                            goOut = True
+
+                if (not goOut):
+                    for j in range(5):
+                        if (guess.word[j] in word):
+                                guess.setMisplaced(j)
+                                break    
+                
+            #guess.setMisplaced(i)
             if (not alphabet.isCorrect(alphabet.word.find(guess.word[i]))):
                 alphabet.setMisplaced(alphabet.word.find(guess.word[i]))
             
