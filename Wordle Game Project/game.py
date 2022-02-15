@@ -149,17 +149,23 @@ def playWordle():
     while (playAgain):
         print('\n'*50+'Wordle')
         playRound(players, words, all_words, settings)
-        playAgain = input('Do you want to play Again').upper() == 'Y'
+        playerInput = input('Do you want to play Again').upper()
+        while playerInput != 'Y' and playerInput != 'N':
+            playerInput = input("Please only use y/n").upper()
+            
+        playAgain = playerInput == 'Y'
 
     #markGuess('hello', guess, alphabet)
 
     # end game by displaying player stats
-
-    guess = WordleWord('hello')
-    alphabet = WordleWord('abcdefghijklmnopqrstuvwxyz')
-    markGuess('apple',guess,alphabet)
-    print(guess)
-    print(alphabet)
+     for player in players:
+        player.displayStats()
+        
+    #guess = WordleWord('hello')
+    #alphabet = WordleWord('abcdefghijklmnopqrstuvwxyz')
+    #markGuess('apple',guess,alphabet)
+    #print(guess)
+    #print(alphabet)
 
         
 def main():
