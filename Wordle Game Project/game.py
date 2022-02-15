@@ -16,6 +16,7 @@ from wordleplayer import WordlePlayer
 #   alphabet - WordleWord of the letters a-z that have been marked
 #======
 def markGuess(word, guess, alphabet):
+    print(type(guess))
     
     for i in range(5):
         if word[i] == guess.word[i]:
@@ -47,22 +48,22 @@ def playRound(players, words, all_words, settings):
     answer = 'hello'
     alphabet = WordleWord('abcdefghijklmnopqrstuvwxyz')
     listofGuesses = []
-    guess = ''
+    guess = WordleWord('')
 
-    while len(listofGuesses) < 6 and str(guess) != answer:
+    while len(listofGuesses) < 6 and str(guess.word) != answer:
         
         oldGuess = guess
-        guess = input("Enter your guess:")
+        guess = WordleWord(input("Enter your guess:"))
 
-        while len(guess) != 5 or not all_words.contains(guess) or guess in listofGuesses:
-            guess = input("You can only enter legal 5 letter words, no repeats!:")
+        while len(guess.word) != 5 or not all_words.contains(guess.word) or guess in listofGuesses:
+            guess = WordleWord(input("You can only enter legal 5 letter words, no repeats!:"))
 
         markGuess(answer, guess, alphabet)
     
         listofGuesses.append(guess)
 
         for x in range(len(listofGuesses)):
-            print(str(x + 1) + ': ' + listofGuesses[x])
+            print(str(x + 1) + ': ' + listofGuesses[x].word)
         
         print(alphabet)
 
@@ -116,8 +117,7 @@ def playWordle():
 
     animateWord('Please enter your name','Let\'s play the game of Wordle!',0.05)
     playerName = input('>')
-    player1 = WordlePlayer()
-    #playerlist = [WordlePlayer()]
+    players = [WordlePlayer()]
 
     # start playing rounds of Wordle
     playAgain = True
@@ -125,7 +125,7 @@ def playWordle():
     loadingAnim()
     while (playAgain):
         print('\n'*50+'Wordle')
-        playRound(player1, words, all_words, settings)
+        playRound(players, words, all_words, settings)
         playAgain = input('Do you want to play Again').upper() == 'Y'
 
     #markGuess('hello', guess, alphabet)
@@ -138,7 +138,7 @@ def playWordle():
     print(guess)
     print(alphabet)
 
-    player1.displayStats()
+    players.displayStats()
         
 def main():
     playWordle()
