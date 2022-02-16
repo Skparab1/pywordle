@@ -72,11 +72,10 @@ def playRound(players, words, all_words, settings):
 
     while len(listofGuesses) < 6 and str(guess.word) != answer:
         
-        oldGuess = guess
-        guess = WordleWord(input("Enter your guess:"))
+        guess = WordleWord(input("Enter your guess:").lower())
 
         while len(guess.word) != 5 or not all_words.contains(guess.word) or guess.word in wordlist:
-            guess = WordleWord(input("You can only enter legal 5 letter words, no repeats!:"))
+            guess = WordleWord(input("You can only enter legal 5 letter words, no repeats!:").lower())
 
         markGuess(answer, guess, alphabet)
 
