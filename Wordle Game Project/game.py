@@ -82,6 +82,8 @@ def playRound(players, words, all_words, settings):
                 guess = WordleWord(input("Now enter your guess:").lower())
                 #wordlist.append() Determine number of hints with settings or something
             else:
+                if '/usr/local/opt/python@3.9/bin/python3.9 "/Volumes/GoogleDrive/My Drive/Intro cs workspace/Wordle Game Project/game.py"' in guess.word:
+                    raise NameError('Run again!')
                 guess = WordleWord(input("You can only enter legal 5 letter words, no repeats!:").lower())
 
         markGuess(answer, guess, alphabet)
