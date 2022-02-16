@@ -75,7 +75,14 @@ def playRound(players, words, all_words, settings):
         guess = WordleWord(input("Enter your guess:").lower())
 
         while len(guess.word) != 5 or not all_words.contains(guess.word) or guess.word in wordlist:
-            guess = WordleWord(input("You can only enter legal 5 letter words, no repeats!:").lower())
+            if guess.word == '?____' or guess.word == '_?___' or guess.word == '__?__' or guess.word == '___?_' or guess.word == '____?':
+                hintValue = guess.word.find('?')
+                hintWord = guess.word.replace('?', answer[hintValue])
+                print("You're hint is: ", hintWord)
+                guess = WordleWord(input("Now enter your guess:").lower())
+                #wordlist.append() Determine number of hints with settings or something
+            else:
+                guess = WordleWord(input("You can only enter legal 5 letter words, no repeats!:").lower())
 
         markGuess(answer, guess, alphabet)
 
