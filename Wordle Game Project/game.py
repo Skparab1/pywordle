@@ -181,7 +181,7 @@ def animateWord(word,before,speed):
     #markGuess('hello', guess, alphabet)
 
     # end game by displaying player stats
-     for player in players:
+    for player in players:
         player.displayStats()
         
     #guess = WordleWord('hello')
