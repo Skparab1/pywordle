@@ -27,20 +27,31 @@ def markGuess(word, guess, alphabet):
             #print('went into correct if')
         elif guess.word[i] in word:
             goOut = False
-            if (getCharAmt(word,guess.word[i]) == 1 and getCharAmt(guess.word,guess.word[i]) == 1): # if theres only one of that character but hthere are two of them 
-                for j in range(5):
-                    if (word[j] == guess.word[j]):
-                        if i == j:
-                            #guess.setCorrect(i)
-                            goOut = True
+            if (getCharAmt(word,guess.word[i]) == 1 and getCharAmt(guess.word,guess.word[i]) > 1): # if theres only one of that character but hthere are two of them 
+                #print('corner case override 1')
+                for j in range(5): # go through the word
+                    if (word[j] == guess.word[j]): #if the guess is the same anywhere
+                        print('one was correct, marked')
+                        guess.setCorrect(j)    
+                        goOut = True
 
-                if (not goOut):
+
+                if (not goOut): 
                     for j in range(5):
                         if (guess.word[j] in word):
                                 guess.setMisplaced(j)
-                                break    
-                
-            #guess.setMisplaced(i)
+                                print('none were correct, marked first')
+                                goOut = True
+                                if i != j:
+                                    guess.setUnused(i)
+                                break
+            else:
+                guess.setMisplaced(i)
+                #print(guess,word)
+                #print(guess.word[i],word[i])
+                #print(getCharAmt(word,word[i]),getCharAmt(guess.word,guess.word[i]))
+                #print('no override')
+
             if (not alphabet.isCorrect(alphabet.word.find(guess.word[i]))):
                 alphabet.setMisplaced(alphabet.word.find(guess.word[i]))
             
@@ -50,7 +61,6 @@ def markGuess(word, guess, alphabet):
             if (not alphabet.isCorrect(alphabet.word.find(guess.word[i])) and not alphabet.isMisplaced(alphabet.word.find(guess.word[i]))):
                 alphabet.setUnused(alphabet.word.find(guess.word[i]))
             #print('went into unused if')
-
 
 #======
 # playRound(players, words, all_words, settings)
