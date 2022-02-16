@@ -130,23 +130,28 @@ def animateWord(word,before,speed):
         time.sleep(speed)
 
 
-def playWordle():
-    animateWord("Let's play the game of Wordle!",'',0.03)
+    try:
+        animateWord("Let's play the game of Wordle!",'',0.03)
 
-    # initialize WordBanks
-    all_words = WordBank("words_alpha.txt")
-    words = WordBank("common5letter.txt")
+        # initialize WordBanks
+        all_words = WordBank("words_alpha.txt")
+        words = WordBank("common5letter.txt")
 
-    # intialize settings to the baseline settings
+        # intialize settings to the baseline settings
 
-    settings = Setting()
-    settings.setSetting('maxguess', 6)
-    settings.setSetting('numplayers', 1)
-    settings.setSetting('difficulty', 'normal')
+        settings = Setting()
+        settings.setSetting('maxguess', 6)
+        settings.setSetting('numplayers', 1)
+        settings.setSetting('difficulty', 'normal')
 
-    animateWord('Please enter your name','Let\'s play the game of Wordle!',0.05)
-    playerName = input('>')
-    players = [WordlePlayer()]
+        animateWord('Please enter your name','Let\'s play the game of Wordle!',0.05)
+        playerName = input('>')
+        players = [WordlePlayer()]
+        loadingAnim()
+
+    except:
+        playerName = 'skipped'
+        players = [WordlePlayer()]
 
     # start playing rounds of Wordle
     playAgain = True
