@@ -32,6 +32,7 @@ from player import Player
 class WordlePlayer(Player):
 
     def __init__(self):
+        super().__init__(name)
         self.wins = 0
         self.plays = 0
         self.streak = 0
