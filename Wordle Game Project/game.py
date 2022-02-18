@@ -31,7 +31,7 @@ def markGuess(word, guess, alphabet):
                 #print('corner case override 1')
                 for j in range(5): # go through the word
                     if (word[j] == guess.word[j]): #if the guess is the same anywhere
-                        print('one was correct, marked')
+                        #print('one was correct, marked')
                         guess.setCorrect(j)    
                         goOut = True
 
@@ -40,10 +40,10 @@ def markGuess(word, guess, alphabet):
                     for j in range(5):
                         if (guess.word[j] in word):
                                 guess.setMisplaced(j)
-                                print('none were correct, marked first')
+                                #print('none were correct, marked first')
                                 goOut = True
                                 if i != j:
-                                    guess.setUnused(i)
+                                    guess.setNotUsed(i)
                                 break
             else:
                 guess.setMisplaced(i)
@@ -57,9 +57,9 @@ def markGuess(word, guess, alphabet):
             
             #print('went into misp if')
         else:
-            guess.setUnused(i)
+            guess.setNotUsed(i)
             if (not alphabet.isCorrect(alphabet.word.find(guess.word[i])) and not alphabet.isMisplaced(alphabet.word.find(guess.word[i]))):
-                alphabet.setUnused(alphabet.word.find(guess.word[i]))
+                alphabet.setNotUsed(alphabet.word.find(guess.word[i]))
             #print('went into unused if')
 
 #======
@@ -73,8 +73,8 @@ def markGuess(word, guess, alphabet):
 #   settings - Settings of game
 #======
 def playRound(players, words, all_words, settings):
-    #answer = words.getRandom()
-    answer = 'hello'
+    answer = words.getRandom()
+    #answer = 'hello'
     alphabet = WordleWord('abcdefghijklmnopqrstuvwxyz')
     listofGuesses = []
     wordlist = []
@@ -82,26 +82,26 @@ def playRound(players, words, all_words, settings):
 
     while len(listofGuesses) < 6 and str(guess.word) != answer:
         
-        guess = WordleWord(input("Enter your guess:").lower())
+        guess = WordleWord(input("Enter your guess:").lower().strip())
 
         while len(guess.word) != 5 or not all_words.contains(guess.word) or guess.word in wordlist:
             if guess.word == '?____' or guess.word == '_?___' or guess.word == '__?__' or guess.word == '___?_' or guess.word == '____?':
                 hintValue = guess.word.find('?')
                 hintWord = guess.word.replace('?', answer[hintValue])
                 print("You're hint is: ", hintWord)
-                guess = WordleWord(input("Now enter your guess:").lower())
-                #wordlist.append() Determine number of hints with settings or something
+                guess = WordleWord(input("Now enter your guess:").lower().strip())
+                #hintlist.append() Determine number of hints with settings or something
             else:
                 if '/usr/local/opt/python@3.9/bin/python3.9 "/Volumes/GoogleDrive/My Drive/Intro cs workspace/Wordle Game Project/game.py"' in guess.word:
                     raise NameError('Run again!')
                 if len(guess.word) < 5:
-                    guess = WordleWord(input("Your guess is too short! Enter another guess:").lower())
+                    guess = WordleWord(input("Your guess is too short! Enter another guess:").lower().strip())
                 elif len(guess.word) > 5:
-                    guess = WordleWord(input("Your guess is too long! Enter another guess:").lower())
+                    guess = WordleWord(input("Your guess is too long! Enter another guess:").lower().strip())
                 elif not all_words.contains(guess.word):
-                    guess = WordleWord(input("Your guess is not a legal word! Enter another guess:").lower())
+                    guess = WordleWord(input("Your guess is not a legal word! Enter another guess:").lower().strip())
                 elif guess.word in wordlist:
-                    guess = WordleWord(input("You already guessed that word! Enter another guess").lower())
+                    guess = WordleWord(input("You already guessed that word! Enter another guess").lower().strip())
 
         markGuess(answer, guess, alphabet)
 
@@ -165,7 +165,7 @@ def playWordle():
 
         animateWord('Please enter your name','Let\'s play the game of Wordle!',0.05)
         playerName = input('>')
-        players = [WordlePlayer()]
+        players = [WordlePlayer(playerName)]
         loadingAnim()
 
     except:
@@ -175,12 +175,13 @@ def playWordle():
     # start playing rounds of Wordle
     playAgain = True
 
+    loadingAnim()
     while (playAgain):
         print('\n'*50+'Wordle')
         playRound(players, words, all_words, settings)
-        playerInput = input('Do you want to play Again').upper()
+        playerInput = input('Do you want to play again?').upper().strip()
         while playerInput != 'Y' and playerInput != 'N':
-            playerInput = input("Please only use y/n").upper()
+            playerInput = input("Please only use y/n").upper().strip()
             
         playAgain = playerInput == 'Y'
 
