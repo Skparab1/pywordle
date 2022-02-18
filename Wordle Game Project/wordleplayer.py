@@ -31,7 +31,7 @@ from player import Player
 # TODO - make WordlePlayer
 class WordlePlayer(Player):
 
-    def __init__(self):
+    def __init__(self,name):
         super().__init__(name)
         self.wins = 0
         self.plays = 0
