@@ -94,7 +94,14 @@ def playRound(players, words, all_words, settings):
             else:
                 if '/usr/local/opt/python@3.9/bin/python3.9 "/Volumes/GoogleDrive/My Drive/Intro cs workspace/Wordle Game Project/game.py"' in guess.word:
                     raise NameError('Run again!')
-                guess = WordleWord(input("You can only enter legal 5 letter words, no repeats!:").lower())
+                if len(guess.word) < 5:
+                    guess = WordleWord(input("Your guess is too short! Enter another guess:").lower())
+                elif len(guess.word) > 5:
+                    guess = WordleWord(input("Your guess is too long! Enter another guess:").lower())
+                elif not all_words.contains(guess.word):
+                    guess = WordleWord(input("Your guess is not a legal word! Enter another guess:").lower())
+                elif guess.word in wordlist:
+                    guess = WordleWord(input("You already guessed that word! Enter another guess").lower())
 
         markGuess(answer, guess, alphabet)
 
