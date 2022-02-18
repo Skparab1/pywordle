@@ -16,8 +16,8 @@ from wordleplayer import WordlePlayer
 #   alphabet - WordleWord of the letters a-z that have been marked
 #======
 def markGuess(word, guess, alphabet):
-    print(type(word))
-    print(type(guess))
+    #print(type(word))
+    #print(type(guess))
      
     for i in range(5):
         #print('went into loop')
@@ -168,7 +168,6 @@ def playWordle():
     # start playing rounds of Wordle
     playAgain = True
 
-    loadingAnim()
     while (playAgain):
         print('\n'*50+'Wordle')
         playRound(players, words, all_words, settings)
