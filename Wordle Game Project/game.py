@@ -141,7 +141,7 @@ def animateWord(word,before,speed):
         print(word[0:i])
         time.sleep(speed)
 
-
+def playWordle():
     try:
         animateWord("Let's play the game of Wordle!",'',0.03)
 
