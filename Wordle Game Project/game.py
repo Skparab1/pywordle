@@ -175,7 +175,6 @@ def playWordle():
     # start playing rounds of Wordle
     playAgain = True
 
-    loadingAnim()
     while (playAgain):
         print('\n'*50+'Wordle')
         playRound(players, words, all_words, settings)
