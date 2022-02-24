@@ -99,7 +99,7 @@ def playRound(players, words, all_words, settings):
                 elif len(guess.word) > 5:
                     guess = WordleWord(input("Your guess is too long! Enter another guess:").lower().strip())
                 elif not all_words.contains(guess.word):
-                    guess = WordleWord(input("Your guess is not a legal word! Enter another guess:").lower().strip())
+                    guess = WordleWord(input("Your guess is not an English word! Enter another guess:").lower().strip())
                 elif guess.word in wordlist:
                     guess = WordleWord(input("You already guessed that word! Enter another guess").lower().strip())
 
