@@ -30,15 +30,15 @@ def markGuess(word, guess, alphabet):
             if (getCharAmt(word,guess.word[i]) == 1 and getCharAmt(guess.word,guess.word[i]) > 1): # if theres only one of that character but hthere are two of them 
                 #print('corner case override 1')
                 for j in range(5): # go through the word
-                    if (word[j] == guess.word[j]): #if the guess is the same anywhere
-                        #print('one was correct, marked')
+                    if (word[j] == guess.word[j] and guess.word[j] == guess.word[i]): #if the guess is the same anywhere
+                        #print('one was correct, marked, for letter',guess.word[j])
                         guess.setCorrect(j)    
                         goOut = True
 
 
                 if (not goOut): 
                     for j in range(5):
-                        if (guess.word[j] in word):
+                        if (guess.word[j] in word and guess.word[j] == guess.word[i]):
                                 guess.setMisplaced(j)
                                 #print('none were correct, marked first')
                                 goOut = True
@@ -73,8 +73,8 @@ def markGuess(word, guess, alphabet):
 #   settings - Settings of game
 #======
 def playRound(players, words, all_words, settings):
-    answer = words.getRandom()
-    #answer = 'hello'
+    #answer = words.getRandom()
+    answer = 'roman'
     alphabet = WordleWord('abcdefghijklmnopqrstuvwxyz')
     listofGuesses = []
     wordlist = []
