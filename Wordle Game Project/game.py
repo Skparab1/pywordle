@@ -73,8 +73,7 @@ def markGuess(word, guess, alphabet):
 #   settings - Settings of game
 #======
 def playRound(players, words, all_words, settings):
-    #answer = words.getRandom()
-    answer = 'roman'
+    answer = words.getRandom()
     alphabet = WordleWord('abcdefghijklmnopqrstuvwxyz')
     listofGuesses = []
     wordlist = []
