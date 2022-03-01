@@ -1,5 +1,5 @@
 # Names: Joseph Gerali, Shubham Parab
-# Snapshot 1: Wordleword finished, wordleplayer finished. working on game.py
+# Snapshot 5: Baseline game finished, fixed more corner case bugs
 
 from re import S
 import string
@@ -43,7 +43,8 @@ def markGuess(word, guess, alphabet):
                                 #print('none were correct, marked first')
                                 goOut = True
                                 if i != j:
-                                    guess.setNotUsed(i)
+                                    #guess.setNotUsed(i)goos
+                                    print()
                                 break
             else:
                 guess.setMisplaced(i)
@@ -57,7 +58,7 @@ def markGuess(word, guess, alphabet):
             
             #print('went into misp if')
         else:
-            guess.setNotUsed(i)
+            #guess.setNotUsed(i)
             if (not alphabet.isCorrect(alphabet.word.find(guess.word[i])) and not alphabet.isMisplaced(alphabet.word.find(guess.word[i]))):
                 alphabet.setNotUsed(alphabet.word.find(guess.word[i]))
             #print('went into unused if')
@@ -74,6 +75,7 @@ def markGuess(word, guess, alphabet):
 #======
 def playRound(players, words, all_words, settings):
     answer = words.getRandom()
+    answer = 'glory'
     alphabet = WordleWord('abcdefghijklmnopqrstuvwxyz')
     listofGuesses = []
     wordlist = []
@@ -164,12 +166,12 @@ def playWordle():
 
         animateWord('Please enter your name','Let\'s play the game of Wordle!',0.05)
         playerName = input('>')
-        players = [WordlePlayer(playerName)]
+        players = [WordlePlayer(playerName,6)]
         loadingAnim()
 
     except:
         playerName = ''
-        players = [WordlePlayer(playerName)]
+        players = [WordlePlayer(playerName,6)]
 
     # start playing rounds of Wordle
     playAgain = True

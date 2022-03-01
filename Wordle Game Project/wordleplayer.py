@@ -29,7 +29,7 @@
 from player import Player
 
 # TODO - make WordlePlayer
-class WordlePlayer(Player):
+class WordlePlayer(Player,maxTry):
 
     def __init__(self,name):
         super().__init__(name)
@@ -43,7 +43,7 @@ class WordlePlayer(Player):
         self.try3 = 0
         self.try4 = 0
         self.try5 = 0
-        self.try6 = 0
+        self.try6 = 0x
     
     def updateStats(self, won, tries):
         self.plays += 1
