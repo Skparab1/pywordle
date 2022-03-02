@@ -43,8 +43,7 @@ def markGuess(word, guess, alphabet):
                                 #print('none were correct, marked first')
                                 goOut = True
                                 if i != j:
-                                    #guess.setNotUsed(i)goos
-                                    print()
+                                    guess.setNotUsed(i)
                                 break
             else:
                 guess.setMisplaced(i)
@@ -58,10 +57,11 @@ def markGuess(word, guess, alphabet):
             
             #print('went into misp if')
         else:
-            #guess.setNotUsed(i)
+            guess.setNotUsed(i)
             if (not alphabet.isCorrect(alphabet.word.find(guess.word[i])) and not alphabet.isMisplaced(alphabet.word.find(guess.word[i]))):
                 alphabet.setNotUsed(alphabet.word.find(guess.word[i]))
             #print('went into unused if')
+
 
 #======
 # playRound(players, words, all_words, settings)
