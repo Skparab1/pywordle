@@ -75,10 +75,14 @@ class WordlePlayer(Player):
             for a in range(self.maxTry):
                 amount = self.listofTries.count(a + 1)
                 amountlist.append(amount)
-        othervalue = 0
-        for value in amountlist:
-            if amountlist[value] > othervalue:
-                highestamount = amountlist[value]
+            highestamount = 0
+            for value in amountlist:
+                if amountlist[value] > highestamount:
+                    highestamount = amountlist[value]
+        else:
+            for b in range(self.maxTry):
+                amountlist.append(0)
+            highestamount = 1
         return (amountlist, highestamount)
 
     def gamesPlayed(self):
@@ -107,7 +111,7 @@ class WordlePlayer(Player):
         #"  " + "5: " + int(20 * (self.percent5)+ 1) * "#" + " "+ str(self.try5) + "\n"
         #"  " + "6: " + int(20 * (self.percent6) + 1) * "#" + " " + str(self.try6) + "\n")
 
-#Person = WordlePlayer('person', 6)
+#Person = WordlePlayer('person', 8)
 
 #Person.updateStats(True, 3)
 #Person.updateStats(True, 3)
@@ -125,6 +129,6 @@ class WordlePlayer(Player):
 # print(Person.winPercentage())
 # print(Person.currentStreak())
 # print(Person.maxStreak())
-#print(Person.tryPercentage())
+#print(Person.tryAmounts())
 
 #Person.displayStats()
