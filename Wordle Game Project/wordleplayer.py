@@ -35,7 +35,6 @@ class WordlePlayer(Player):
         super().__init__(name)
         self.maxTry = maxTry
         self.listofTries = []
-        self.amountlist = []
         self.wins = 0
         self.plays = 0
         self.streak = 0
@@ -70,13 +69,17 @@ class WordlePlayer(Player):
             self.percentage = 0
             return self.percentage
     
-    def tryPercentage(self):
-        self.amountlist = []
+    def tryAmounts(self):
+        amountlist = []
         if self.wins != 0: 
             for a in range(self.maxTry):
                 amount = self.listofTries.count(a + 1)
-                self.amountlist.append(amount)
-        return self.amountlist
+                amountlist.append(amount)
+        othervalue = 0
+        for value in amountlist:
+            if amountlist[value] > othervalue:
+                highestamount = amountlist[value]
+        return (amountlist, highestamount)
 
     def gamesPlayed(self):
         return self.plays
@@ -90,12 +93,12 @@ class WordlePlayer(Player):
     def displayStats(self):
         print(
             "Games Played: " + str(self.plays) + "\n"
-            "Win %: " + str(self.winPercentage()) + "%\n"
+            "Win %: " + str(round(self.winPercentage())) + "%\n"
             "Current Streak: " + str(self.currentStreak()) + "\n"
             "Max Streak: " + str(self.maxStreak()) + "\n"
             "Guess Distribution")
         for value in range(self.maxTry):
-            print("  " + str(value + 1) + ': ' + int(20 * (self.tryPercentage()[value]/self.wins) + 1) * "#" + " " + str(self.tryPercentage()[value]))
+            print("  " + str(value + 1) + ': ' + int(20 * (self.tryAmounts()[0][value]/self.tryAmounts()[1]) + 1) * "#" + " " + str(self.tryAmounts()[0][value]))
         
         #print("  " + "1: " + int(20 * (self.tryPercentage()[0]) + 1) * "#" + " " + str(self.try1) + "\n"
         #"  " + "2: " + int(20 * (self.percent2) + 1)* "#" + " " + str(self.try2) + "\n"
@@ -106,12 +109,17 @@ class WordlePlayer(Player):
 
 #Person = WordlePlayer('person', 6)
 
-#Person.updateStats(True, 5)
-#Person.updateStats(True, 4)
+#Person.updateStats(True, 3)
+#Person.updateStats(True, 3)
 #Person.updateStats(True, 4)
 #Person.updateStats(False, 0)
+#Person.updateStats(True, 5)
+#Person.updateStats(True, 5)
 #Person.updateStats(True, 3)
-#Person.updateStats(True, 1)
+#Person.updateStats(True, 2)
+#Person.updateStats(False, 20)
+#Person.updateStats(True, 3)
+#Person.updateStats(True, 2)
 
 # print(Person.gamesPlayed())
 # print(Person.winPercentage())
