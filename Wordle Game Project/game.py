@@ -1,7 +1,7 @@
 # Names: Joseph Gerali, Shubham Parab
 # Snapshot 5: Baseline game finished, fixed more corner case bugs
 
-from re import S
+from gui import *
 import string
 import time
 from setting import Setting
@@ -132,17 +132,33 @@ def getCharAmt(word,char):
 
     return charct
 
-def loadingAnim():
+def loadingAnim(before):
     print('\n'*50)
+    print(before)
     print('Loading')
     time.sleep(0.5)
     for i in range(10):
         print('\n'*50)
+        print(before)
         print('Loading'+'.'*i)
         time.sleep(0.01)
     time.sleep(1)
 
+def launchGUI(players):
+    try:
+        for i in range(5):
+            print('\n'*50)
+            print('Launching GUI'+'.'*i)
+            time.sleep(0.3)
+        runGUI(players)
+    except:
+        print('GUI launch Failed :(')
+    finally:
+        input('Press enter to continue to game')
+    
+
 def animateWord(word,before,speed):
+    speed = 0
     for i in range(len(word)+1):
         print('\n'*50)
         print(before)
@@ -167,7 +183,13 @@ def playWordle():
         animateWord('Please enter your name','Let\'s play the game of Wordle!',0.05)
         playerName = input('>')
         players = [WordlePlayer(playerName,6)]
-        loadingAnim()
+
+        animateWord('Would you like to use GUI? type y/n','Let\'s play the game of Wordle!\nPlease enter your name',0.05)
+        dolaunchGUI = (input('>').upper() == 'Y')
+        if (dolaunchGUI):
+            launchGUI(players)
+        else:
+            loadingAnim('')
 
     except:
         playerName = ''
