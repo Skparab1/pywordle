@@ -75,8 +75,8 @@ def markGuess(word, guess, alphabet):
 #   settings - Settings of game
 #======
 def playRound(players, words, all_words, settings):
-    #answer = words.getRandom()
-    answer = 'apple'
+    answer = words.getRandom()
+    #answer = 'apple'
     alphabet = WordleWord('abcdefghijklmnopqrstuvwxyz')
     listofGuesses = []
     wordlist = []
@@ -85,33 +85,33 @@ def playRound(players, words, all_words, settings):
 
     while len(listofGuesses) < settings.getValue('maxguess') and str(guess.word) != answer:
         
-        guess = WordleWord(input("Enter your guess:").lower().strip())
+        guess = WordleWord(input("Enter your guess \n>").lower().strip())
 
         while len(guess.word) != 5 or not all_words.contains(guess.word) or guess.word in wordlist:
             if guess.word == '?____' or guess.word == '_?___' or guess.word == '__?__' or guess.word == '___?_' or guess.word == '____?':
                 if guess.word in hintlist or len(hintlist) >= settings.getValue('maxhint'):
-                    if guess.word in hintlist:
-                        guess = WordleWord(input("You have already asked for that letter, enter another guess:"))
-                    elif len(hintlist) > settings.getValue('maxhint'):
-                        guess = WordleWord(input("You have used all of your hints! Now enter a guess:"))
+                    if len(hintlist) > settings.getValue('maxhint'):
+                        guess = WordleWord(input("You have used all of your hints! Now enter a guess \n>"))
+                    elif guess.word in hintlist:
+                        guess = WordleWord(input("You have already asked for that letter, enter another guess \n>"))
                     
                 else:
                     hintlist.append(guess.word)
                     hintValue = guess.word.find('?')
                     hintWord = guess.word.replace('?', answer[hintValue])
                     print("You're hint is: ", hintWord)
-                    guess = WordleWord(input("Now enter your guess:").lower().strip())
+                    guess = WordleWord(input("Now enter your guess \n>").lower().strip())
             else:
                 if '/usr/local/opt/python@3.9/bin/python3.9 "/Volumes/GoogleDrive/My Drive/Intro cs workspace/Wordle Game Project/game.py"' in guess.word:
                     raise NameError('Run again!')
                 if len(guess.word) < 5:
-                    guess = WordleWord(input("Your guess is too short! Enter another guess:").lower().strip())
+                    guess = WordleWord(input("Your guess is too short! Enter another guess \n>").lower().strip())
                 elif len(guess.word) > 5:
-                    guess = WordleWord(input("Your guess is too long! Enter another guess:").lower().strip())
+                    guess = WordleWord(input("Your guess is too long! Enter another guess \n>").lower().strip())
                 elif not all_words.contains(guess.word):
-                    guess = WordleWord(input("Your guess is not an English word! Enter another guess:").lower().strip())
+                    guess = WordleWord(input("Your guess is not an English word! Enter another guess \n>").lower().strip())
                 elif guess.word in wordlist:
-                    guess = WordleWord(input("You already guessed that word! Enter another guess").lower().strip())
+                    guess = WordleWord(input("You already guessed that word! Enter another guess \n>").lower().strip())
 
         markGuess(answer, guess, alphabet)
 
@@ -214,7 +214,7 @@ def playWordle():
         if (dolaunchGUI):
             launchGUI(players)
         else:
-            loadingAnim('')
+            loadingAnim()
 
 
     except Exception as e:
