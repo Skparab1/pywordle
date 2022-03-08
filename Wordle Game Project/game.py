@@ -2,6 +2,7 @@
 # Snapshot 5: Baseline game finished, fixed more corner case bugs
 
 from gui import *
+from re import S
 import string
 import time
 from setting import Setting
@@ -74,24 +75,32 @@ def markGuess(word, guess, alphabet):
 #   settings - Settings of game
 #======
 def playRound(players, words, all_words, settings):
-    answer = words.getRandom()
-    answer = 'glory'
+    #answer = words.getRandom()
+    answer = 'apple'
     alphabet = WordleWord('abcdefghijklmnopqrstuvwxyz')
     listofGuesses = []
     wordlist = []
+    hintlist = []
     guess = WordleWord('')
 
-    while len(listofGuesses) < 6 and str(guess.word) != answer:
+    while len(listofGuesses) < settings.getValue('maxguess') and str(guess.word) != answer:
         
         guess = WordleWord(input("Enter your guess:").lower().strip())
 
         while len(guess.word) != 5 or not all_words.contains(guess.word) or guess.word in wordlist:
             if guess.word == '?____' or guess.word == '_?___' or guess.word == '__?__' or guess.word == '___?_' or guess.word == '____?':
-                hintValue = guess.word.find('?')
-                hintWord = guess.word.replace('?', answer[hintValue])
-                print("You're hint is: ", hintWord)
-                guess = WordleWord(input("Now enter your guess:").lower().strip())
-                #hintlist.append() Determine number of hints with settings or something
+                if guess.word in hintlist or len(hintlist) >= settings.getValue('maxhint'):
+                    if guess.word in hintlist:
+                        guess = WordleWord(input("You have already asked for that letter, enter another guess:"))
+                    elif len(hintlist) > settings.getValue('maxhint'):
+                        guess = WordleWord(input("You have used all of your hints! Now enter a guess:"))
+                    
+                else:
+                    hintlist.append(guess.word)
+                    hintValue = guess.word.find('?')
+                    hintWord = guess.word.replace('?', answer[hintValue])
+                    print("You're hint is: ", hintWord)
+                    guess = WordleWord(input("Now enter your guess:").lower().strip())
             else:
                 if '/usr/local/opt/python@3.9/bin/python3.9 "/Volumes/GoogleDrive/My Drive/Intro cs workspace/Wordle Game Project/game.py"' in guess.word:
                     raise NameError('Run again!')
@@ -132,14 +141,12 @@ def getCharAmt(word,char):
 
     return charct
 
-def loadingAnim(before):
+def loadingAnim():
     print('\n'*50)
-    print(before)
     print('Loading')
     time.sleep(0.5)
     for i in range(10):
         print('\n'*50)
-        print(before)
         print('Loading'+'.'*i)
         time.sleep(0.01)
     time.sleep(1)
@@ -155,35 +162,53 @@ def launchGUI(players):
         print('GUI launch Failed :(')
     finally:
         input('Press enter to continue to game')
-    
 
 def animateWord(word,before,speed):
-    speed = 0
     for i in range(len(word)+1):
         print('\n'*50)
         print(before)
         print(word[0:i])
         time.sleep(speed)
 
+def isnumber(input):
+    try:
+        input = int(input)
+        return True
+
+    except:
+        return False
+
 def playWordle():
     try:
-        animateWord("Let's play the game of Wordle!",'',0.03)
+        animateWord("Let's play the game of Wordle!",'',0.05)
 
         # initialize WordBanks
         all_words = WordBank("words_alpha.txt")
         words = WordBank("common5letter.txt")
 
-        # intialize settings to the baseline settings
+        animateWord("How many guesses would you like to have?", '', 0.03)
+        numguess = input(">")
+        while isnumber(numguess) == False:
+            numguess = input("Please enter an integer:")
+        numguess = int(numguess)
 
+        animateWord("How many hints would you like to have?", '', 0.03)
+        numhint = input(">")
+        while isnumber(numhint) == False:
+            numhint = input("Please enter an integer:")
+        numhint = int(numhint)
+
+        # intialize settings to the baseline settings
         settings = Setting()
-        settings.setSetting('maxguess', 6)
+        settings.setSetting('maxguess', numguess)
         settings.setSetting('numplayers', 1)
         settings.setSetting('difficulty', 'normal')
+        settings.setSetting('maxhint', numhint)
 
         animateWord('Please enter your name','Let\'s play the game of Wordle!',0.05)
         playerName = input('>')
-        players = [WordlePlayer(playerName,6)]
-
+        players = [WordlePlayer(playerName, settings.getValue('maxguess'))]
+        
         animateWord('Would you like to use GUI? type y/n','Let\'s play the game of Wordle!\nPlease enter your name',0.05)
         dolaunchGUI = (input('>').upper() == 'Y')
         if (dolaunchGUI):
@@ -191,9 +216,16 @@ def playWordle():
         else:
             loadingAnim('')
 
-    except:
+
+    except Exception as e:
+        print(e)
         playerName = ''
-        players = [WordlePlayer(playerName,6)]
+        settings = Setting()
+        settings.setSetting('maxguess', 6)
+        settings.setSetting('numplayers', 1)
+        settings.setSetting('difficulty', 'normal')
+        settings.setSetting('maxhint', 0)
+        players = [WordlePlayer(playerName, settings.getValue('maxguess'))]
 
     # start playing rounds of Wordle
     playAgain = True
