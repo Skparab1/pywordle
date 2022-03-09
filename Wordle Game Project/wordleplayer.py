@@ -159,11 +159,11 @@ Person.updateStats(True, 3)
 # print(Person.maxStreak())
 #print(Person.tryAmounts())
 
-Person.displayStats()
+#Person.displayStats()
 
-input()
+#input()
 
 
-Person.displayStats2()
+#Person.displayStats2()
 
-input()
+#input()
