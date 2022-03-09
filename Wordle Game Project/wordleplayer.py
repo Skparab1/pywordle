@@ -96,19 +96,19 @@ class WordlePlayer(Player):
         return self.maxstreak
 
     def displayStats(self):
-        for i in range (1,50):
+        for i in range (1,51):
             print('\n'*50)
             print(
-            "Games Played: " + str(self.plays) + "\n"
-            "Win %: " + str(round(self.winPercentage())) + "%\n"
-            "Current Streak: " + str(self.currentStreak()) + "\n"
-            "Max Streak: " + str(self.maxStreak()) + "\n"
+            "Games Played: " + str(round(i/50*self.plays)) + "\n"
+            "Win %: " + str(round(i/50*self.winPercentage())) + "%\n"
+            "Current Streak: " + str(round(i/50*self.currentStreak())) + "\n"
+            "Max Streak: " + str(round(i/50*self.maxStreak())) + "\n"
             "Guess Distribution")
 
             for value in range(self.maxTry):
                 barlength = int(20 * (self.tryAmounts()[0][value]/self.tryAmounts()[1]) + 1) #this is the max
                 barlength = round((i/50) * barlength)
-                print("  " + str(value + 1) + ': ' + barlength * "#" + " " + str(self.tryAmounts()[0][value]))
+                print("  " + str(value + 1) + ': ' + barlength * "#" + " " + str(round(i/50*self.tryAmounts()[0][value])))
             time.sleep(0.07*i/50)
         
         #print("  " + "1: " + int(20 * (self.tryPercentage()[0]) + 1) * "#" + " " + str(self.try1) + "\n"
@@ -117,6 +117,27 @@ class WordlePlayer(Player):
         #"  " + "4: " + int(20 * (self.percent4) + 1) * "#" + " " + str(self.try4) + "\n"
         #"  " + "5: " + int(20 * (self.percent5)+ 1) * "#" + " "+ str(self.try5) + "\n"
         #"  " + "6: " + int(20 * (self.percent6) + 1) * "#" + " " + str(self.try6) + "\n")
+
+    def displayStats2(self):
+        for value in range(self.maxTry):
+            for i in range (1,50):
+                print('\n'*50)
+                print(
+                "Games Played: " + str(self.plays) + "\n"
+                "Win %: " + str(round(self.winPercentage())) + "%\n"
+                "Current Streak: " + str(self.currentStreak()) + "\n"
+                "Max Streak: " + str(self.maxStreak()) + "\n"
+                "Guess Distribution")
+                for val in range(self.maxTry):
+                    if val > value:
+                        barlength = 0
+                    if val == value:
+                        barlength = int(20 * (self.tryAmounts()[0][val]/self.tryAmounts()[1]) + 1) #this is the max
+                        barlength = round((i/50) * barlength)
+                    if val < value:
+                        barlength = int(20 * (self.tryAmounts()[0][val]/self.tryAmounts()[1]) + 1)
+                    print("  " + str(val + 1) + ': ' + barlength * "#" + " " + str(round(i/50*self.tryAmounts()[0][val])))
+                time.sleep(0.04*i/50)
 
 Person = WordlePlayer('person', 6)
 
@@ -139,5 +160,10 @@ Person.updateStats(True, 3)
 #print(Person.tryAmounts())
 
 Person.displayStats()
+
+input()
+
+
+Person.displayStats2()
 
 input()
