@@ -186,17 +186,26 @@ def playWordle():
         all_words = WordBank("words_alpha.txt")
         words = WordBank("common5letter.txt")
 
-        animateWord("How many guesses would you like to have?", '', 0.03)
-        numguess = input(">")
-        while isnumber(numguess) == False:
-            numguess = input("Please enter an integer:")
-        numguess = int(numguess)
+        animateWord("Would you like to play with custom settings?", "Let's play the game of Wordle!", 0.03)
+        customSetting = input(">").upper().strip()
+        while customSetting != 'Y' and customSetting != 'N':
+            customSetting = input("Please only use y/n").upper().strip()
 
-        animateWord("How many hints would you like to have?", '', 0.03)
-        numhint = input(">")
-        while isnumber(numhint) == False:
-            numhint = input("Please enter an integer:")
-        numhint = int(numhint)
+        if customSetting == 'Y':
+            animateWord("How many guesses would you like to have?", 'Custom Settings:', 0.03)
+            numguess = input(">")
+            while isnumber(numguess) == False:
+                numguess = input("Please enter an integer:")
+            numguess = int(numguess)
+
+            animateWord("How many hints would you like to have?", 'Custom Settings', 0.03)
+            numhint = input(">")
+            while isnumber(numhint) == False:
+                numhint = input("Please enter an integer:")
+            numhint = int(numhint)
+        else: 
+            numguess = 6
+            numhint = 0
 
         # intialize settings to the baseline settings
         settings = Setting()
