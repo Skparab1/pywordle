@@ -15,22 +15,22 @@ from fancyword import FancyWord
 class WordleWord(FancyWord):
 
     def setCorrect(self,pos):
-        self.setColorAt(pos,'green')
+        self.setColorAt(pos,'green') # at position pos, set char of wordleword green
 
     def setMisplaced(self,pos):
-        self.setColorAt(pos,'yellow')
+        self.setColorAt(pos,'yellow') # at position pos, set char of wordleword yellow 
     
     def setNotUsed(self,pos):
-        self.setColorAt(pos,'gray')
+        self.setColorAt(pos,'gray') # at position pos, set char of wordleword gray
 
     def isCorrect(self,pos):
-        return self.colorAt(pos) == 'green'
+        return self.colorAt(pos) == 'green' # if the color at pos is green then return true else return false
 
     def isMisplaced(self,pos):
-        return self.colorAt(pos) == 'yellow'
+        return self.colorAt(pos) == 'yellow' # if the color at pos is yellow then return true else return false
 
     def isNotUsed(self,pos):
-        return self.colorAt(pos) == 'gray'
+        return self.colorAt(pos) == 'gray' # if the color at pos is gray then return true else return false
 
 
 
