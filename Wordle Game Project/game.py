@@ -75,64 +75,90 @@ def markGuess(word, guess, alphabet):
 #   settings - Settings of game
 #======
 def playRound(players, words, all_words, settings):
-    answer = words.getRandom()
+
+    # initialize stuff
+    answer = words.getRandom() # get a random word
     #answer = 'apple'
-    alphabet = WordleWord('abcdefghijklmnopqrstuvwxyz')
+    alphabet = WordleWord('abcdefghijklmnopqrstuvwxyz') # initialize alphabet
+    #initialize list vars
     listofGuesses = []
     wordlist = []
     hintlist = []
-    guess = WordleWord('')
+    guess = WordleWord('') # initialize wordleword
 
+    # WHile the amount of guesses is less than the max number of allowed guesses, then ask for a guess
     while len(listofGuesses) < settings.getValue('maxguess') and str(guess.word) != answer:
         
+        # ask for guess
         guess = WordleWord(input("Enter your guess \n>").lower().strip())
 
+        # check if guess is valid
         while len(guess.word) != 5 or not all_words.contains(guess.word) or guess.word in wordlist:
+
+            # if user is asking for a hint then give it
             if guess.word == '?____' or guess.word == '_?___' or guess.word == '__?__' or guess.word == '___?_' or guess.word == '____?':
+
+                # check if hints are allowed, or if user asked for the letter already
                 if guess.word in hintlist or len(hintlist) >= settings.getValue('maxhint'):
                     if len(hintlist) > settings.getValue('maxhint'):
                         guess = WordleWord(input("You have used all of your hints! Now enter a guess \n>"))
                     elif guess.word in hintlist:
                         guess = WordleWord(input("You have already asked for that letter, enter another guess \n>"))
-                    
+                
+                # give hint
                 else:
                     hintlist.append(guess.word)
                     hintValue = guess.word.find('?')
                     hintWord = guess.word.replace('?', answer[hintValue])
                     print("You're hint is: ", hintWord)
                     guess = WordleWord(input("Now enter your guess \n>").lower().strip())
+            
+            # if its not a hint then
             else:
+                # this one was supposed to be an override if you run it while its running but it doesnt work whatever
                 if '/usr/local/opt/python@3.9/bin/python3.9 "/Volumes/GoogleDrive/My Drive/Intro cs workspace/Wordle Game Project/game.py"' in guess.word:
                     raise NameError('Run again!')
+                # Tells if guess is too short
                 if len(guess.word) < 5:
                     guess = WordleWord(input("Your guess is too short! Enter another guess \n>").lower().strip())
+                # tells if guess is too long
                 elif len(guess.word) > 5:
                     guess = WordleWord(input("Your guess is too long! Enter another guess \n>").lower().strip())
+                # tells if guess is not an english word
                 elif not all_words.contains(guess.word):
                     guess = WordleWord(input("Your guess is not an English word! Enter another guess \n>").lower().strip())
+                # tells if user already guessed word
                 elif guess.word in wordlist:
                     guess = WordleWord(input("You already guessed that word! Enter another guess \n>").lower().strip())
 
+        # marks the guess and alphabet based on guess and answer
         markGuess(answer, guess, alphabet)
-
+        
+        # adds guess to wordlist to save word bank of guesswed words
         wordlist.append(guess.word)
         listofGuesses.append(guess)
 
+        # print out guesses
         for x in range(len(listofGuesses)):
             print(str(x + 1) + ': ', listofGuesses[x])
         
+        #print out alphabet
         print(alphabet)
+    
+    # now comes out of the loop after maximum guesses
 
+    # if player wins, print message, and updatestats
     if guess.word == answer:
         for placeholder in players:
             print("You win!")
             placeholder.updateStats(True, len(listofGuesses))
+    # if player loses, print message and updatestats
     else:
         for placeholder in players:
             print("You lost! The word was:" + str(answer))
             placeholder.updateStats(False, 0)
 
-
+# basically gets the amount of a specific character in a string, used for markguess corner case
 def getCharAmt(word,char):
     charct = 0
     for ch in word:
