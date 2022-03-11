@@ -167,6 +167,7 @@ def getCharAmt(word,char):
 
     return charct
 
+# A loading animation
 def loadingAnim():
     print('\n'*50)
     print('Loading')
@@ -177,6 +178,7 @@ def loadingAnim():
         time.sleep(0.01)
     time.sleep(1)
 
+# gui launcher
 def launchGUI(players):
     try:
         for i in range(5):
@@ -189,6 +191,7 @@ def launchGUI(players):
     finally:
         input('Press enter to continue to game')
 
+# animation to spell out word
 def animateWord(word,before,speed):
     for i in range(len(word)+1):
         print('\n'*50)
@@ -196,6 +199,7 @@ def animateWord(word,before,speed):
         print(word[0:i])
         time.sleep(speed)
 
+# function to check if input is a number
 def isnumber(input):
     try:
         input = int(input)
@@ -205,6 +209,8 @@ def isnumber(input):
         return False
 
 def playWordle():
+
+    # starting dialogue
     try:
         animateWord("Let's play the game of Wordle!",'',0.05)
 
@@ -212,11 +218,13 @@ def playWordle():
         all_words = WordBank("words_alpha.txt")
         words = WordBank("common5letter.txt")
 
+        # get custom settings, if user wants
         animateWord("Would you like to play with custom settings?", "Let's play the game of Wordle!", 0.03)
         customSetting = input(">").upper().strip()
         while customSetting != 'Y' and customSetting != 'N':
             customSetting = input("Please only use y/n").upper().strip()
 
+        # get custom settings
         if customSetting == 'Y':
             animateWord("How many guesses would you like to have?", 'Custom Settings:', 0.03)
             numguess = input(">")
@@ -229,6 +237,8 @@ def playWordle():
             while isnumber(numhint) == False:
                 numhint = input("Please enter an integer:")
             numhint = int(numhint)
+
+        # if user doesn't want custom settings, set to defualts
         else: 
             numguess = 6
             numhint = 0
@@ -240,10 +250,12 @@ def playWordle():
         settings.setSetting('difficulty', 'normal')
         settings.setSetting('maxhint', numhint)
 
+        # get name
         animateWord('Please enter your name','Let\'s play the game of Wordle!',0.05)
         playerName = input('>')
         players = [WordlePlayer(playerName, settings.getValue('maxguess'))]
         
+        # ask whether to launch GUI or not, and call gui if yes
         animateWord('Would you like to use GUI? type y/n','Let\'s play the game of Wordle!\nPlease enter your name',0.05)
         dolaunchGUI = (input('>').upper() == 'Y')
         if (dolaunchGUI):
@@ -251,7 +263,7 @@ def playWordle():
         else:
             loadingAnim()
 
-
+    # if user wants to skip, then control c on mac will raise an error and skip it
     except Exception as e:
         print(e)
         playerName = ''
@@ -265,6 +277,7 @@ def playWordle():
     # start playing rounds of Wordle
     playAgain = True
 
+    # keep on playing wordle until user decides to quit
     while (playAgain):
         print('\n'*50+'Wordle')
         playRound(players, words, all_words, settings)
